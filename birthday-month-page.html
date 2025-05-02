@@ -1,117 +1,221 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Happy Birthday Month, Teddy ❤️</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #ffe6f0, #fff);
+      padding: 80px 20px;
       font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffe6f0, #ffe0f7);
       text-align: center;
-      color: #c0396e;
+      overflow-x: hidden;
     }
+
     h1 {
-      font-size: 2.8em;
-      margin-top: 60px;
+      font-size: 2.5em;
+      color: #d63384;
+      margin-bottom: 20px;
     }
-    .note {
-      margin: 30px auto;
-      font-size: 20px;
-      width: 80%;
-      max-width: 600px;
+
+    p.note {
+      font-size: 1.2em;
+      max-width: 90%;
+      margin: 20px auto;
+      color: #6a1b4d;
+      line-height: 1.6;
     }
-    .btn {
-      background: #ff5c8d;
-      color: white;
-      padding: 15px 35px;
-      border: none;
-      font-size: 18px;
-      cursor: pointer;
-      border-radius: 10px;
-      margin-top: 30px;
-      transition: background 0.3s ease;
-    }
-    .btn:hover {
-      background: #ff8cbf;
-    }
+
     #countdown {
-      font-size: 24px;
-      margin-top: 20px;
+      font-size: 1.2em;
+      margin-top: 10px;
       color: #9b1c50;
+      font-weight: bold;
     }
+
+    #full-countdown {
+      font-size: 1.2em;
+      margin-top: 20px;
+      color: #b30059;
+    }
+
+    .btn {
+      margin-top: 40px;
+      padding: 15px 40px;
+      background-color: #ff69b4;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .btn:hover {
+      background-color: #ff1493;
+    }
+
+    .popup-heart {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 300px;
+      height: 270px;
+      z-index: 1000;
+      transition: transform 0.4s ease;
+    }
+
+    .popup-heart.show {
+      display: block;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .popup-heart svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .popup-heart text {
+      font-size: 12px;
+      fill: white;
+      font-weight: bold;
+      text-anchor: middle;
+    }
+
+    .border-top, .border-bottom {
+      position: fixed;
+      width: 100%;
+      height: 60px;
+      background: url('https://png.pngtree.com/png-vector/20250331/ourlarge/pngtree-elegant-happy-birthday-cake-with-cream-frosting-red-heart-decorations-02-png-image_15918056.png') repeat-x;
+      background-size: 60px 60px;
+      z-index: 10;
+    }
+
+    .border-left, .border-right {
+      position: fixed;
+      height: 100%;
+      width: 60px;
+      background: url('https://png.pngtree.com/png-vector/20250331/ourlarge/pngtree-elegant-happy-birthday-cake-with-cream-frosting-red-heart-decorations-02-png-image_15918056.png') repeat-y;
+      background-size: 60px 60px;
+      z-index: 10;
+    }
+
+    .border-top { top: 0; left: 0; }
+    .border-bottom { bottom: 0; left: 0; }
+    .border-left { top: 0; left: 0; }
+    .border-right { top: 0; right: 0; }
+
     canvas {
       position: fixed;
       top: 0;
       left: 0;
       pointer-events: none;
+      z-index: 5;
     }
+
+    audio { display: none; }
   </style>
 </head>
 <body>
 
-  <h1>Happy Birthday Month, Teddy ❤️</h1>
-  <p class="note">My love, this month is all about you. I promise to be by your side in sickness and in health, in laughter and tears, today and always. 💖</p>
+  <!-- Borders -->
+  <div class="border-top"></div>
+  <div class="border-bottom"></div>
+  <div class="border-left"></div>
+  <div class="border-right"></div>
+
+  <!-- Main Content -->
+  <h1>Happy Birthday Month, Teddy 🎉</h1>
+
+  <p class="note">
+    My love, this month is all about you.<br>
+    I promise to be by your side<br>
+    in sickness and in health,<br>
+    in laughter and in tears,<br>
+    forever and always. 💖
+  </p>
 
   <div id="countdown"></div>
 
   <button class="btn" onclick="startSurprise()">Surprise Me 💝</button>
 
-  <!-- Background Music -->
-  <audio id="bg-music" autoplay loop>
+  <div id="full-countdown"></div>
+
+  <!-- SVG Heart Popup -->
+  <div class="popup-heart" id="popup">
+    <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 30
+               C100 0, 160 0, 160 40
+               C160 80, 100 120, 100 150
+               C100 120, 40 80, 40 40
+               C40 0, 100 0, 100 30
+               Z" fill="#ff69b4"/>
+      <text x="100" y="70">
+        <tspan x="100" dy="-1.2em">My Love</tspan>
+        <tspan x="100" dy="1.4em">My World</tspan>
+        <tspan x="100" dy="1.4em">My Teddy ❤️</tspan>
+      </text>
+    </svg>
+  </div>
+
+  <!-- Music -->
+  <audio id="bg-music">
     <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
   </audio>
 
-  <!-- Confetti JS -->
+  <!-- Confetti -->
   <canvas id="confetti-canvas"></canvas>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script>
-    // Birthday Countdown
-    const birthday = new Date("2025-05-20"); // Change to actual birthday
+    const birthday = new Date("2025-05-27T00:00:00");
     const countdownEl = document.getElementById("countdown");
+    const fullCountdownEl = document.getElementById("full-countdown");
 
     function updateCountdown() {
       const now = new Date();
       const diff = birthday - now;
       if (diff <= 0) {
-        countdownEl.innerText = "🎉 It's your special day, Teddy! 🎉";
+        countdownEl.innerText = "🎉 It's your special day, Teddy!";
+        fullCountdownEl.innerText = "";
         return;
       }
+
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
       countdownEl.innerText = `${days} day(s) until your beautiful birthday! 🎂`;
+      fullCountdownEl.innerText = `⏳ ${days}d ${hours}h ${minutes}m ${seconds}s remaining`;
     }
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Confetti Animation
-    function startSurprise() {
-      const duration = 3 * 1000;
-      const animationEnd = Date.now() + duration;
-      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 999 };
-
-      function randomInRange(min, max) {
-        return Math.random() * (max - min) + min;
-      }
-
-      const interval = setInterval(function () {
-        const timeLeft = animationEnd - Date.now();
-
-        if (timeLeft <= 0) {
-          return clearInterval(interval);
-        }
-
-        const particleCount = 50 * (timeLeft / duration);
-        confetti(Object.assign({}, defaults, {
-          particleCount,
-          origin: { x: randomInRange(0.1, 0.9), y: Math.random() - 0.2 }
-        }));
-      }, 250);
+    function fireConfetti() {
+      const duration = 3000;
+      const end = Date.now() + duration;
+      (function frame() {
+        confetti({ particleCount: 6, angle: 60, spread: 55, origin: { x: 0 } });
+        confetti({ particleCount: 6, angle: 120, spread: 55, origin: { x: 1 } });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
     }
-  </script>
 
+    function startSurprise() {
+      const popup = document.getElementById("popup");
+      popup.classList.add("show");
+      setTimeout(() => {
+        popup.classList.remove("show");
+      }, 5000);
+      document.getElementById("bg-music").play();
+      fireConfetti();
+    }
+
+    window.onload = fireConfetti;
+  </script>
 </body>
 </html>
